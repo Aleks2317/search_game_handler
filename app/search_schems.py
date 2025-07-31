@@ -6,10 +6,6 @@ class SearchResult(BaseModel):
     providers: list[int] = []
 
 
-class SearchResponse(BaseModel):
-    text: str
-    result: SearchResult | None = None
-
 class QueryUser(BaseModel):
     query: str = Field(
         min_length=2,

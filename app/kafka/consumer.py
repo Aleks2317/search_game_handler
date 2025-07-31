@@ -1,10 +1,6 @@
-import asyncio
-from aiokafka import AIOKafkaConsumer, ConsumerRebalanceListener
+from aiokafka import AIOKafkaConsumer
 
-from typing import List
-
-from settings import KAFKA_BOOTSTRAP_SERVERS, REQUEST_TOPIC
-from search_schems import QueryUser
+from app.settings import KAFKA_BOOTSTRAP_SERVERS, REQUEST_TOPIC
 
 
 class Consumer:
@@ -22,7 +18,6 @@ class Consumer:
 
 
     async def start(self):
-        """Инициализация и подключение к Kafka"""
         try:
             self.consumer = AIOKafkaConsumer(
                 *self.topics,
@@ -38,7 +33,6 @@ class Consumer:
 
 
     async def stop(self):
-        """Остановка и закрытие соединения"""
         if self.consumer:
             await self.consumer.stop()
             print("Потребитель остановлен")

@@ -1,38 +1,33 @@
 import asyncio
-import json
 
-from consumer import consumer
-from search_schems import SearchResponse, QueryUser
-
-
-def write_bd(response: dict):
-    try:
-        with open('db.json', mode='a', encoding='utf-8') as file:
-            json.dump(response, file, ensure_ascii=False, indent=4)
-            print(f"Данные успешно записаны в db.json")
-    except Exception as e:
-        print(f"Произошла ошибка при записи: {str(e)}")
-
+from app.kafka.consumer import consumer
+from app.handler_query.handler_db import search_get_db
+from app.services.cache import redis_cache
+from app.search_schems import QueryUser
 
 
 async def main():
+
     await consumer.start()
+    await redis_cache.init()
     try:
         async for message in consumer.consumer:
             try:
                 msg_str = message.value.decode('utf-8')
-                message = json.loads(msg_str)
-                # здесь должен быть код обращения к smtp-серверу
-                print(f'попытка записи сообщение: {QueryUser.model_validate_json(msg_str)}')
-                write_bd(message)
-                print(f'Отправлено сообщение: {QueryUser.model_validate_json(msg_str)}')
+                msg_str = QueryUser.model_validate_json(msg_str).query
+                result = await(search_get_db(msg_str))
+                print(f'Сообщение обработано: {result}')
+                await redis_cache.set(msg_str, result.model_dump_json())
+                print(f'Отправлено в Redis!')
+
+
+
             except Exception as e:
                 print(f"Ошибка обработки сообщения: {e}")
     except Exception as e:
         print(f"Критическая ошибка: {e}")
     finally:
         await consumer.stop()
-
 
 
 if __name__ == "__main__":
