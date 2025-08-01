@@ -1,0 +1,66 @@
+__pycache__/
+
+# Poetry
+.venv/
+.python-version
+.poetry/
+
+# Временные файлы
+*.tmp
+*~
+.#*
+*.swp
+*.swo
+
+# IDE и редакторы
+.idea/
+.vscode/
+*.code-workspace
+
+# Конфигурации окружения
+.env
+.env.development
+.env.production
+
+# Базы данных и миграции
+*.db
+*.sqlite
+*.sqlite3
+migrations/versions/
+
+# Отчеты тестирования
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+
+# Директории сборки
+dist/
+build/
+*.egg-info/
+
+# Redis и кэши
+*.rdb
+dump.rdb
+
+# Kafka
+.aiokafka/
+kafka-logs/
+
+# Pydantic
+pydantic-schema.json
+
+# Общие шаблоны
+node_modules/
+*.log
+
+# Исключения (если нужно отслеживать какие-то файлы)
+# !specific-file.py
+# !important-config.json
+
+# Docker (если используется)
+docker-compose.override.yml
+.docker/
+
+# Локальные настройки
+local_settings.py
