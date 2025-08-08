@@ -1,0 +1,43 @@
+services:
+  web:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    command: uvicorn main:app --host 0.0.0.0
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+      - redis
+      - kafka
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  kafka:
+    image: bitnami/kafka:latest
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    volumes:
+      - kafka_data:/kafka/data
+
+  db:
+    image: postgres:14
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_DB=search-game
+    ports:
+      - 5432
+
+volumes:
+  postgres_data:
+  kafka_data:
