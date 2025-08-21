@@ -38,4 +38,4 @@ class Consumer:
             print("Потребитель остановлен")
 
 
-consumer = Consumer()
+consumer_worker = Consumer()

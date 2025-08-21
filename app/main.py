@@ -1,17 +1,17 @@
 import asyncio
 
-from app.kafka.consumer import consumer
-from app.handler_query.handler_db import search_get_db
-from app.services.cache import redis_cache
-from app.search_schems import QueryUser
+from kafka.consumer import consumer_worker
+from handler_query.handler_db import search_get_db
+from services.cache import redis_cache
+from search_schems import QueryUser
 
 
 async def main():
 
-    await consumer.start()
+    await consumer_worker.start()
     await redis_cache.init()
     try:
-        async for message in consumer.consumer:
+        async for message in consumer_worker.consumer:
             try:
                 msg_str = message.value.decode('utf-8')
                 msg_str = QueryUser.model_validate_json(msg_str).query
@@ -27,7 +27,7 @@ async def main():
     except Exception as e:
         print(f"Критическая ошибка: {e}")
     finally:
-        await consumer.stop()
+        await consumer_worker.stop()
 
 
 if __name__ == "__main__":
