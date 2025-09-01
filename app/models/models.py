@@ -14,7 +14,7 @@ class Provider(Base):
 
 
 class Game(Base):
-    __tablename__="games"
+    __tablename__ = "games"
 
     id = Column(Integer, primary_key=True)
     title = Column(String(200))

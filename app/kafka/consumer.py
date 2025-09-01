@@ -5,17 +5,16 @@ from app.settings import KAFKA_BOOTSTRAP_SERVERS, REQUEST_TOPIC
 
 class Consumer:
     def __init__(
-            self,
-            auto_offset_reset: str = "earliest",
-            enable_auto_commit: bool = True,
+        self,
+        auto_offset_reset: str = "earliest",
+        enable_auto_commit: bool = True,
     ):
         self.bootstrap_servers = KAFKA_BOOTSTRAP_SERVERS
-        self.group_id = 'my-group'
+        self.group_id = "my-group"
         self.topics = [REQUEST_TOPIC]
         self.auto_offset_reset = auto_offset_reset
         self.enable_auto_commit = enable_auto_commit
         self.consumer = None
-
 
     async def start(self):
         try:
@@ -30,7 +29,6 @@ class Consumer:
             print("Потребитель успешно подключен")
         except Exception as e:
             print(f"Ошибка подключения: {e}")
-
 
     async def stop(self):
         if self.consumer:

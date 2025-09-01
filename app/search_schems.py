@@ -10,5 +10,5 @@ class QueryUser(BaseModel):
     query: str = Field(
         min_length=2,
         max_length=100,
-        description="Поисковый запрос пользователя"
+        description="Поисковый запрос пользователя",
     )

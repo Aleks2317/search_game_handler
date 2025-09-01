@@ -13,14 +13,12 @@ async def main():
     try:
         async for message in consumer_worker.consumer:
             try:
-                msg_str = message.value.decode('utf-8')
+                msg_str = message.value.decode("utf-8")
                 msg_str = QueryUser.model_validate_json(msg_str).query
-                result = await(search_get_db(msg_str))
-                print(f'Сообщение обработано: {result}')
+                result = await search_get_db(msg_str)
+                print(f"Сообщение обработано: {result}")
                 await redis_cache.set(msg_str, result.model_dump_json())
-                print(f'Отправлено в Redis!')
-
-
+                print(f"Отправлено в Redis!")
 
             except Exception as e:
                 print(f"Ошибка обработки сообщения: {e}")
