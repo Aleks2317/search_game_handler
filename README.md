@@ -20,16 +20,3 @@ This service acts as the backend consumer in the system architecture.
 [Game Logic & Analytics]
 
 
----
-
-## 📁 Project Structure
-
-```text
-search_game_handler/
-├── tasks/            # Background and deferred tasks
-├── core/             # Configuration and database/broker setups
-├── utils/            # Helper functions and game algorithms
-├── config.py         # Worker configuration settings
-├── .env.example      # Environment variables template
-├── requirements.txt  # Dependencies
-└── README.md
